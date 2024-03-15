@@ -22,11 +22,14 @@ const SearchParamProvider = ({ children }: { children: ReactNode }) => {
   const id = idParam === null ? null : parseInt(idParam);
 
   const setSearchParam = (key: string, value: string) => {
-    newSearchParameters.set(key, value);
-
-    console.log(newSearchParameters);
+    if (!value) {
+      newSearchParameters.delete(key);
+    } else {
+      newSearchParameters.set(key, value);
+    }
     setSearchParams(newSearchParameters);
   };
+
   const params = { page, id };
   const value = { params, setSearchParam };
   return (

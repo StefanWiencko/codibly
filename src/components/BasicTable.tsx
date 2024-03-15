@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent, Key, ReactNode } from "react";
 import { useSearchParam } from "@/contexts/SearchParamContext";
 
 type BaseKeys = {
@@ -50,7 +50,7 @@ const BasicTable = <T extends BaseKeys>({
           <TableHead>
             <TableRow>
               {tableStructure.map((cell) => (
-                <TableCell>{cell.title}</TableCell>
+                <TableCell key={cell.title}>{cell.title}</TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -69,8 +69,10 @@ const BasicTable = <T extends BaseKeys>({
                     }}
                     onClick={() => console.log("xd")}
                   >
-                    {tableStructure.map((cell) => (
-                      <TableCell>{row[cell.key] as ReactNode}</TableCell>
+                    {tableStructure.map((cell, i) => (
+                      <TableCell key={row.id + i}>
+                        {row[cell.key] as ReactNode}
+                      </TableCell>
                     ))}
                   </TableRow>
                 ))

@@ -23,7 +23,6 @@ const tableStructure: ProductTableStructure = [
 ];
 
 const App = () => {
-  const [inputValue, setInputValue] = useState<null | number>(null);
   const {
     params: { page, id },
     setSearchParam,
