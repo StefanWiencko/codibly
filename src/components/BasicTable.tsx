@@ -7,8 +7,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { ChangeEvent, Key, ReactNode } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 import { useSearchParam } from "@/contexts/SearchParamContext";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 type BaseKeys = {
   id: number;
@@ -35,6 +38,7 @@ const BasicTable = <T extends BaseKeys>({
   tableStructure,
   totalPages,
 }: Props<T>) => {
+  const [modalData, setModalData] = useState<T | undefined>(undefined);
   const {
     params: { page },
     setSearchParam,
@@ -43,8 +47,29 @@ const BasicTable = <T extends BaseKeys>({
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
     setSearchParam("page", value.toString());
   };
+
+  const handleClose = () => setModalData(undefined);
   return (
     <>
+      <Modal
+        open={modalData ? true : false}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 width-[400px] bg-white">
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Item data
+          </Typography>
+          <Typography
+            id="modal-modal-description"
+            component="pre"
+            sx={{ mt: 2 }}
+          >
+            {JSON.stringify(modalData, null, 2)}
+          </Typography>
+        </Box>
+      </Modal>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
@@ -67,7 +92,7 @@ const BasicTable = <T extends BaseKeys>({
 
                       background: row.color ? row.color : "",
                     }}
-                    onClick={() => console.log("xd")}
+                    onClick={() => setModalData(row)}
                   >
                     {tableStructure.map((cell, i) => (
                       <TableCell key={row.id + i}>
@@ -77,25 +102,25 @@ const BasicTable = <T extends BaseKeys>({
                   </TableRow>
                 ))
               : null}
-            {isSuccess && !products?.length ? (
-              <TableRow>
-                <TableCell>No data</TableCell>
-                <TableCell>No data</TableCell>
-                <TableCell>No data</TableCell>
-              </TableRow>
-            ) : null}
+            <TableRow>
+              {isSuccess && !products?.length ? (
+                <TableCell colSpan={3} align="center">
+                  No data
+                </TableCell>
+              ) : null}
+              {isPending ? (
+                <TableCell colSpan={3} align="center">
+                  Loading...
+                </TableCell>
+              ) : null}
+              {error ? (
+                <TableCell colSpan={3} align="center">
+                  {"Error: " + error.message}
+                </TableCell>
+              ) : null}
+            </TableRow>
           </TableBody>
         </Table>
-        {isPending ? (
-          <h1 className="absolute top-20 left-1/2 -translate-x-1/2 w-fit">
-            Loading...
-          </h1>
-        ) : null}
-        {error ? (
-          <h1 className="absolute top-20 left-1/2 -translate-x-1/2 mx-auto my-2 w-fit">
-            {"Error: " + error.message}
-          </h1>
-        ) : null}
       </TableContainer>
       <Stack
         sx={{ marginX: "auto", marginTop: 2, width: "fit-content" }}
