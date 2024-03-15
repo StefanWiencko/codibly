@@ -5,6 +5,7 @@ import { useSearchParam } from "@/contexts/SearchParamContext";
 import { Product, ProductTableStructure } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { filterProductsById, getProductData } from "@/utils/products";
+import debounce from "lodash/debounce";
 
 const tableStructure: ProductTableStructure = [
   { title: "Id", key: "id" },
@@ -33,6 +34,10 @@ const App = () => {
     [products?.data, id]
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (_: any, val: number | null) => {
+    debounce(() => setSearchParam("id", val), 500)();
+  };
   const props = {
     isPending,
     isSuccess,
@@ -47,9 +52,7 @@ const App = () => {
       <NumberInput
         className="max-w-40 mb-2"
         placeholder="Type id and press tab"
-        onChange={(_, val) =>
-          setSearchParam("id", val === null ? "" : val.toString())
-        }
+        onChange={handleChange}
         slotProps={{
           input: { maxLength: 15 },
         }}

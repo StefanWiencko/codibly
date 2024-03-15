@@ -1,37 +1,40 @@
-import { ReactNode, createContext, useContext } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
+type Params = {
+  page: number;
+  id: number | null;
+};
+
 type Value = {
-  params: {
-    page: number;
-    id: number | null;
-  };
-  setSearchParam: (key: string, value: string) => void;
+  params: Params;
+  setSearchParam: (key: keyof Params, value: number | null) => void;
 };
 
 const SearchParamContext = createContext<Value | undefined>(undefined);
 const newSearchParameters: URLSearchParams = new URLSearchParams();
 
 const SearchParamProvider = ({ children }: { children: ReactNode }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
+  const [paramsState, setParamsState] = useState<Params>({ page: 1, id: null });
 
-  const pageParam = searchParams.get("page");
-  const idParam = searchParams.get("id");
-
-  const page = pageParam === null ? 1 : parseInt(pageParam);
-  const id = idParam === null ? null : parseInt(idParam);
-
-  const setSearchParam = (key: string, value: string) => {
+  const setSearchParam = (key: keyof Params, value: number | null) => {
     if (!value) {
       newSearchParameters.delete(key);
     } else {
-      newSearchParameters.set(key, value);
+      newSearchParameters.set(key, value.toString());
     }
+    setParamsState((prev) => {
+      return { ...prev, [key]: value };
+    });
     setSearchParams(newSearchParameters);
   };
 
-  const params = { page, id };
-  const value = { params, setSearchParam };
+  const params = {
+    page: paramsState?.page ? paramsState?.page : 1,
+    id: paramsState?.id ? paramsState?.id : null,
+  };
+  const value: Value = { params, setSearchParam };
   return (
     <SearchParamContext.Provider value={value}>
       {children}

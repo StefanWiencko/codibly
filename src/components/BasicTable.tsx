@@ -45,7 +45,7 @@ const BasicTable = <T extends BaseKeys>({
   } = useSearchParam();
 
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
-    setSearchParam("page", value.toString());
+    setSearchParam("page", value);
   };
 
   const handleClose = () => setModalData(undefined);
