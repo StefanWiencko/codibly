@@ -1,14 +1,10 @@
 import { Product, ProductsResponse } from "@/types";
+import _filter from "lodash/filter";
 
 export const filterProductsById = (
   products: Product[] | undefined,
   id: number | null
-) =>
-  products?.filter((product) => {
-    if (id === null) return true;
-    if (id === product.id) return true;
-    return false;
-  });
+) => (id === null ? products : _filter(products, ["id", id]));
 
 export const getProductData = async (
   page: number

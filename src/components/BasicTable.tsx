@@ -12,6 +12,7 @@ import { useSearchParam } from "@/contexts/SearchParamContext";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import debounce from "lodash/debounce";
 
 type BaseKeys = {
   id: number;
@@ -38,34 +39,30 @@ const BasicTable = <T extends BaseKeys>({
   tableStructure,
   totalPages,
 }: Props<T>) => {
-  const [modalData, setModalData] = useState<T | undefined>(undefined);
+  const [modalData, setModalData] = useState<T | false>(false);
   const {
     params: { page },
     setSearchParam,
   } = useSearchParam();
 
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
-    setSearchParam("page", value);
+    debounce(() => setSearchParam("page", value), 500)();
   };
 
-  const handleClose = () => setModalData(undefined);
+  const handleClose = () => setModalData(false);
   return (
     <>
       <Modal
         open={modalData ? true : false}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-describedby="modal-modal-data"
       >
-        <Box className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 width-[400px] bg-white">
+        <Box className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white">
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Item data
           </Typography>
-          <Typography
-            id="modal-modal-description"
-            component="pre"
-            sx={{ mt: 2 }}
-          >
+          <Typography id="modal-modal-data" component="pre" sx={{ mt: 2 }}>
             {JSON.stringify(modalData, null, 2)}
           </Typography>
         </Box>

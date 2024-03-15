@@ -50,11 +50,11 @@ const App = () => {
   return (
     <div className="max-w-[800px] mx-auto mt-10">
       <NumberInput
-        className="max-w-40 mb-2"
+        className="max-w-44 mb-2"
         placeholder="Type id and press tab"
         onChange={handleChange}
         slotProps={{
-          input: { maxLength: 15 },
+          input: { maxLength: 18 },
         }}
       />
       <BasicTable<Product> {...props} />
