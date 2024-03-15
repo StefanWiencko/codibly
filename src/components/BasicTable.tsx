@@ -46,7 +46,7 @@ const BasicTable = <T extends BaseKeys>({
   console.log(products);
   return (
     <>
-      <TableContainer component={Paper} sx={{ position: "relative" }}>
+      <TableContainer component={Paper}>
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -65,15 +65,13 @@ const BasicTable = <T extends BaseKeys>({
                       "&:last-child td, &:last-child th": {
                         border: 0,
                       },
+
                       background: row.color ? row.color : "",
-                      height: 14,
                     }}
                     onClick={() => console.log("xd")}
                   >
                     {tableStructure.map((cell) => (
-                      <TableCell sx={{ height: 52.5 }}>
-                        {row[cell.key] as ReactNode}
-                      </TableCell>
+                      <TableCell>{row[cell.key] as ReactNode}</TableCell>
                     ))}
                   </TableRow>
                 ))
