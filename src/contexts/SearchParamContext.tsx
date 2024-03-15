@@ -10,10 +10,10 @@ type Value = {
 };
 
 const SearchParamContext = createContext<Value | undefined>(undefined);
+const newSearchParameters: URLSearchParams = new URLSearchParams();
 
 const SearchParamProvider = ({ children }: { children: ReactNode }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const newSearchParameters: URLSearchParams = new URLSearchParams();
 
   const pageParam = searchParams.get("page");
   const idParam = searchParams.get("id");
@@ -23,6 +23,8 @@ const SearchParamProvider = ({ children }: { children: ReactNode }) => {
 
   const setSearchParam = (key: string, value: string) => {
     newSearchParameters.set(key, value);
+
+    console.log(newSearchParameters);
     setSearchParams(newSearchParameters);
   };
   const params = { page, id };
@@ -37,7 +39,7 @@ const SearchParamProvider = ({ children }: { children: ReactNode }) => {
 const useSearchParam = () => {
   const context = useContext(SearchParamContext);
   if (context === undefined) {
-    throw new Error("usePage must be used within a SearchParamProvider");
+    throw new Error("useSearchParam must be used within a SearchParamProvider");
   }
   return context;
 };

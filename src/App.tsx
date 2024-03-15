@@ -24,11 +24,9 @@ const tableStructure: ProductTableStructure = [
 
 const App = () => {
   const [inputValue, setInputValue] = useState<null | number>(null);
-  // const [filteredProducts, setFilteredProducts] = useState<
-  //   Product[] | undefined
-  // >(undefined);
   const {
-    params: { page },
+    params: { page, id },
+    setSearchParam,
   } = useSearchParam();
 
   const {
@@ -51,8 +49,8 @@ const App = () => {
       return false;
     });
   const filteredProducts = useMemo(
-    () => filterProductsById(products?.data, inputValue),
-    [products?.data, inputValue]
+    () => filterProductsById(products?.data, id),
+    [products?.data, id]
   );
   const props = {
     isPending,
@@ -68,7 +66,12 @@ const App = () => {
       <NumberInput
         className="max-w-40 mb-2"
         placeholder="Type id and press tab"
-        onChange={(_, val) => setInputValue(val)}
+        onChange={(_, val) =>
+          setSearchParam(
+            "id",
+            val === null || val === undefined ? "" : val.toString()
+          )
+        }
         slotProps={{
           input: { maxLength: 15 },
         }}

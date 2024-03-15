@@ -43,7 +43,6 @@ const BasicTable = <T extends BaseKeys>({
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
     setSearchParam("page", value.toString());
   };
-  console.log(products);
   return (
     <>
       <TableContainer component={Paper}>
