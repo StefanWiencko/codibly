@@ -1,3 +1,4 @@
+import { getProductsUrl } from "@/constansts";
 import { Product, ProductsResponse } from "@/types";
 import _filter from "lodash/filter";
 
@@ -9,9 +10,7 @@ export const filterProductsById = (
 export const getProductData = async (
   page: number
 ): Promise<ProductsResponse> => {
-  const response = await fetch(
-    `https://reqres.in/api/products?per_page=5&page=${page}`
-  );
+  const response = await fetch(getProductsUrl(5, page));
 
   if (!response.ok) {
     throw new Error("Request failed with status code: " + response.status);

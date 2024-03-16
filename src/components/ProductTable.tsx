@@ -7,46 +7,43 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { ChangeEvent, ReactNode, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useSearchParam } from "@/contexts/SearchParamContext";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import debounce from "lodash/debounce";
+import { Product } from "@/types";
+import { debounceTimeout } from "@/constansts";
 
-type BaseKeys = {
-  id: number;
-  color?: string;
-};
-
-type Props<T extends BaseKeys> = {
+type Props = {
   isPending: boolean;
   isSuccess: boolean;
   error: Error | null;
-  products: T[] | undefined;
+  products: Product[] | undefined;
   totalPages: number | undefined;
   tableStructure: {
     title: string;
-    key: keyof T;
+    key: keyof Product;
   }[];
 };
 
-const BasicTable = <T extends BaseKeys>({
+const ProductTable = ({
   isPending,
   isSuccess,
   error,
   products,
   tableStructure,
   totalPages,
-}: Props<T>) => {
-  const [modalData, setModalData] = useState<T | false>(false);
+}: Props) => {
+  const [modalData, setModalData] = useState<Product | false>(false);
   const {
     params: { page },
     setSearchParam,
   } = useSearchParam();
 
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
-    debounce(() => setSearchParam("page", value), 500)();
+    debounce(() => setSearchParam("page", value), debounceTimeout)();
   };
 
   const handleClose = () => setModalData(false);
@@ -59,9 +56,6 @@ const BasicTable = <T extends BaseKeys>({
         aria-describedby="modal-modal-data"
       >
         <Box className="absolute p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white">
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Item data
-          </Typography>
           <Typography id="modal-modal-data" component="pre" sx={{ mt: 2 }}>
             {JSON.stringify(modalData, null, 2)}
           </Typography>
@@ -92,9 +86,7 @@ const BasicTable = <T extends BaseKeys>({
                     onClick={() => setModalData(row)}
                   >
                     {tableStructure.map((cell, i) => (
-                      <TableCell key={row.id + i}>
-                        {row[cell.key] as ReactNode}
-                      </TableCell>
+                      <TableCell key={row.id + i}>{row[cell.key]}</TableCell>
                     ))}
                   </TableRow>
                 ))
@@ -137,4 +129,4 @@ const BasicTable = <T extends BaseKeys>({
   );
 };
 
-export default BasicTable;
+export default ProductTable;

@@ -34,7 +34,7 @@ const SearchParamProvider = ({ children }: { children: ReactNode }) => {
     page: paramsState?.page ? paramsState?.page : 1,
     id: paramsState?.id ? paramsState?.id : null,
   };
-  const value: Value = { params, setSearchParam };
+  const value = { params, setSearchParam };
   return (
     <SearchParamContext.Provider value={value}>
       {children}

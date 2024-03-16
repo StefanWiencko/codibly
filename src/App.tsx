@@ -1,17 +1,11 @@
 import { useMemo } from "react";
 import NumberInput from "@/components/NumberInput";
-import BasicTable from "@/components/BasicTable";
+import ProductTable from "@/components/ProductTable";
 import { useSearchParam } from "@/contexts/SearchParamContext";
-import { Product, ProductTableStructure } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { filterProductsById, getProductData } from "@/utils/products";
 import debounce from "lodash/debounce";
-
-const tableStructure: ProductTableStructure = [
-  { title: "Id", key: "id" },
-  { title: "Name", key: "name" },
-  { title: "Year", key: "year" },
-];
+import { debounceTimeout, tableStructure } from "@/constansts";
 
 const App = () => {
   const {
@@ -36,7 +30,7 @@ const App = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, val: number | null) => {
-    debounce(() => setSearchParam("id", val), 500)();
+    debounce(() => setSearchParam("id", val), debounceTimeout)();
   };
   const props = {
     isPending,
@@ -57,7 +51,7 @@ const App = () => {
           input: { maxLength: 18 },
         }}
       />
-      <BasicTable<Product> {...props} />
+      <ProductTable {...props} />
     </div>
   );
 };
