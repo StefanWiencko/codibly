@@ -5,7 +5,11 @@ import { useSearchParam } from "@/contexts/SearchParamContext";
 import { useQuery } from "@tanstack/react-query";
 import { filterProductsById, getProductData } from "@/utils/products";
 import debounce from "lodash/debounce";
-import { debounceTimeout, tableStructure } from "@/constansts";
+import {
+  API_PRODUCTS_QUERY_PARAMS,
+  debounceTimeout,
+  tableStructure,
+} from "@/constansts";
 
 const App = () => {
   const {
@@ -30,7 +34,10 @@ const App = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (_: any, val: number | null) => {
-    debounce(() => setSearchParam("id", val), debounceTimeout)();
+    debounce(
+      () => setSearchParam(API_PRODUCTS_QUERY_PARAMS.ID, val),
+      debounceTimeout
+    )();
   };
   const props = {
     isPending,

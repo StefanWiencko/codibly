@@ -14,7 +14,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import debounce from "lodash/debounce";
 import { Product } from "@/types";
-import { debounceTimeout } from "@/constansts";
+import { API_PRODUCTS_QUERY_PARAMS, debounceTimeout } from "@/constansts";
 
 type Props = {
   isPending: boolean;
@@ -43,7 +43,10 @@ const ProductTable = ({
   } = useSearchParam();
 
   const handleChangePage = (_: ChangeEvent<unknown>, value: number) => {
-    debounce(() => setSearchParam("page", value), debounceTimeout)();
+    debounce(
+      () => setSearchParam(API_PRODUCTS_QUERY_PARAMS.PAGE, value),
+      debounceTimeout
+    )();
   };
 
   const handleClose = () => setModalData(false);

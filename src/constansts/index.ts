@@ -12,7 +12,7 @@ enum API_URL_PARTS {
   PRODUCTS = "/products",
 }
 
-enum API_PRODUCTS_QUERY_PARAMS {
+export enum API_PRODUCTS_QUERY_PARAMS {
   ID = "id",
   PAGE = "page",
   PER_PAGE = "per_page",
