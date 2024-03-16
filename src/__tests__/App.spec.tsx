@@ -68,7 +68,7 @@ describe("When app starts", () => {
   });
 });
 
-describe("When filtering products date", () => {
+describe("When filtering products data", () => {
   it("Returns all products when id is null", () => {
     const filteredProducts = filterProductsById(productsMock, null);
 
