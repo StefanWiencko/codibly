@@ -8,7 +8,7 @@ import debounce from "lodash/debounce";
 import {
   API_PRODUCTS_QUERY_PARAMS,
   debounceTimeout,
-  tableStructure,
+  productTableStructure,
 } from "@/constansts";
 
 const App = () => {
@@ -43,7 +43,7 @@ const App = () => {
     isPending,
     isSuccess,
     error,
-    tableStructure,
+    productTableStructure,
     products: filteredProducts,
     totalPages: products?.total_pages,
   };

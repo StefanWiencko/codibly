@@ -22,7 +22,7 @@ type Props = {
   error: Error | null;
   products: Product[] | undefined;
   totalPages: number | undefined;
-  tableStructure: {
+  productTableStructure: {
     title: string;
     key: keyof Product;
   }[];
@@ -33,7 +33,7 @@ const ProductTable = ({
   isSuccess,
   error,
   products,
-  tableStructure,
+  productTableStructure,
   totalPages,
 }: Props) => {
   const [modalData, setModalData] = useState<Product | false>(false);
@@ -68,7 +68,7 @@ const ProductTable = ({
         <Table sx={{ minWidth: 450 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {tableStructure.map((cell) => (
+              {productTableStructure.map((cell) => (
                 <TableCell key={cell.title}>{cell.title}</TableCell>
               ))}
             </TableRow>
@@ -88,7 +88,7 @@ const ProductTable = ({
                     }}
                     onClick={() => setModalData(row)}
                   >
-                    {tableStructure.map((cell, i) => (
+                    {productTableStructure.map((cell, i) => (
                       <TableCell key={row.id + i}>{row[cell.key]}</TableCell>
                     ))}
                   </TableRow>

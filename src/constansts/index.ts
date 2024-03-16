@@ -1,6 +1,6 @@
 import { ProductTableStructure } from "@/types";
 
-export const tableStructure: ProductTableStructure = [
+export const productTableStructure: ProductTableStructure = [
   { title: "Id", key: "id" },
   { title: "Name", key: "name" },
   { title: "Year", key: "year" },
