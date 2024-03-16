@@ -39,14 +39,18 @@ const App = () => {
       debounceTimeout
     )();
   };
-  const props = {
-    isPending,
-    isSuccess,
-    error,
-    productTableStructure,
-    products: filteredProducts,
-    totalPages: products?.total_pages,
-  };
+
+  const props = useMemo(
+    () => ({
+      isPending,
+      isSuccess,
+      error,
+      productTableStructure,
+      products: filteredProducts,
+      totalPages: products?.total_pages,
+    }),
+    [isPending, isSuccess, error, filteredProducts, products?.total_pages]
+  );
 
   return (
     <div className="max-w-[800px] mx-auto mt-10">

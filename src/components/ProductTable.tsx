@@ -13,7 +13,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import debounce from "lodash/debounce";
-import { Product } from "@/types";
+import { Product, ProductTableStructure } from "@/types";
 import { API_PRODUCTS_QUERY_PARAMS, debounceTimeout } from "@/constansts";
 
 type Props = {
@@ -22,10 +22,7 @@ type Props = {
   error: Error | null;
   products: Product[] | undefined;
   totalPages: number | undefined;
-  productTableStructure: {
-    title: string;
-    key: keyof Product;
-  }[];
+  productTableStructure: ProductTableStructure;
 };
 
 const ProductTable = ({
@@ -53,7 +50,7 @@ const ProductTable = ({
   return (
     <>
       <Modal
-        open={modalData ? true : false}
+        open={!!modalData}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-data"

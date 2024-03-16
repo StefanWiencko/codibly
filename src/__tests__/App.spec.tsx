@@ -47,6 +47,16 @@ const productsMock: Product[] = [
   },
 ];
 
+const filteredResult = [
+  {
+    id: 1,
+    name: "cerulean",
+    year: 2000,
+    color: "#98B2D1",
+    pantone_value: "15-4020",
+  },
+];
+
 const queryClient = new QueryClient();
 const Providers = ({ children }: { children: ReactNode }) => (
   <Router>
@@ -77,15 +87,6 @@ describe("When filtering products data", () => {
 
   it("Returns single product with given id", () => {
     const filteredProducts = filterProductsById(productsMock, 1);
-    const filteredResult = [
-      {
-        id: 1,
-        name: "cerulean",
-        year: 2000,
-        color: "#98B2D1",
-        pantone_value: "15-4020",
-      },
-    ];
 
     expect(filteredProducts).toEqual(filteredResult);
   });
