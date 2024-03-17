@@ -81,12 +81,14 @@ const ProductTable = ({
                         border: 0,
                       },
 
-                      background: row.color ? row.color : "",
+                      background: row.color,
                     }}
                     onClick={() => setModalData(row)}
                   >
-                    {productTableStructure.map((cell, i) => (
-                      <TableCell key={row.id + i}>{row[cell.key]}</TableCell>
+                    {productTableStructure.map((cell) => (
+                      <TableCell key={cell.key + row.id}>
+                        {row[cell.key]}
+                      </TableCell>
                     ))}
                   </TableRow>
                 ))
